@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="coo_reports_10xe.CooReportsDashboard">
+        <div class="crd_page">
+            <div class="crd_shell">
+                <header class="crd_hero">
+                    <div class="crd_hero_content">
+                        <div class="crd_hero_mark" aria-hidden="true">
+                            <i class="fa fa-bar-chart"/>
+                        </div>
+                        <div class="crd_hero_copy">
+                            <div class="crd_kicker">
+                                <span class="crd_live_dot"/>
+                                Executive reporting center
+                            </div>
+                            <h1>COO Reports</h1>
+                            <p>One place for workforce, delivery, performance, hiring, and availability reports.</p>
+                        </div>
+                        <div class="crd_hero_stats">
+                            <div class="crd_stat">
+                                <strong t-esc="modules.length"/>
+                                <span>Modules</span>
+                            </div>
+                            <div class="crd_stat">
+                                <strong t-esc="totalReportCount"/>
+                                <span>Reports</span>
+                            </div>
+                            <div class="crd_access_badge">
+                                <i class="fa fa-lock"/>
+                                COO access
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="crd_controls">
+                        <label class="crd_search">
+                            <i class="fa fa-search" aria-hidden="true"/>
+                            <input type="search"
+                                   placeholder="Search reports, modules, or export formats..."
+                                   t-att-value="state.query"
+                                   t-on-input="onSearch"/>
+                            <button t-if="state.query"
+                                    type="button"
+                                    class="crd_search_clear"
+                                    title="Clear search"
+                                    t-on-click="clearSearch">
+                                <i class="fa fa-times"/>
+                            </button>
+                        </label>
+                        <nav class="crd_module_nav" aria-label="Report modules">
+                            <t t-foreach="modules" t-as="module" t-key="module.key">
+                                <button type="button"
+                                        t-attf-class="crd_nav_pill crd_nav_{{ module.color }}"
+                                        t-on-click="() => this.scrollToModule(module.key)">
+                                    <i t-attf-class="fa {{ module.icon }}"/>
+                                    <span t-esc="module.name"/>
+                                    <small t-esc="module.reports.length"/>
+                                </button>
+                            </t>
+                        </nav>
+                    </div>
+                </header>
+
+                <main class="crd_content">
+                    <div class="crd_result_bar">
+                        <div>
+                            <strong t-esc="state.query ? 'Search results' : 'All report modules'"/>
+                            <span t-if="state.query">
+                                for “<t t-esc="state.query"/>”
+                            </span>
+                        </div>
+                        <span>
+                            <t t-esc="visibleReportCount"/>
+                            <t t-esc="visibleReportCount === 1 ? ' report' : ' reports'"/>
+                        </span>
+                    </div>
+
+                    <div t-if="!visibleModules.length" class="crd_empty">
+                        <div class="crd_empty_icon"><i class="fa fa-search"/></div>
+                        <h2>No reports found</h2>
+                        <p>Try a module name such as Employees, Appraisal, Recruitment, or Utilization.</p>
+                        <button type="button" class="crd_clear_button" t-on-click="clearSearch">Show all reports</button>
+                    </div>
+
+                    <section t-foreach="visibleModules"
+                             t-as="module"
+                             t-key="module.key"
+                             t-attf-id="crd-module-{{ module.key }}"
+                             t-attf-class="crd_module crd_module_{{ module.color }}">
+                        <div class="crd_module_header">
+                            <div class="crd_module_icon" aria-hidden="true">
+                                <i t-attf-class="fa {{ module.icon }}"/>
+                            </div>
+                            <div class="crd_module_title">
+                                <span t-esc="module.eyebrow"/>
+                                <h2 t-esc="module.name"/>
+                                <p t-esc="module.description"/>
+                            </div>
+                            <div class="crd_module_count">
+                                <strong t-esc="module.reports.length"/>
+                                <span t-esc="module.reports.length === 1 ? 'Report' : 'Reports'"/>
+                            </div>
+                        </div>
+
+                        <div class="crd_report_grid">
+                            <button t-foreach="module.reports"
+                                    t-as="report"
+                                    t-key="report.action"
+                                    type="button"
+                                    class="crd_report_card"
+                                    t-att-disabled="state.openingAction"
+                                    t-on-click="() => this.openReport(report)">
+                                <span class="crd_report_accent"/>
+                                <span class="crd_report_body">
+                                    <span class="crd_report_heading">
+                                        <strong t-esc="report.name"/>
+                                        <span t-if="report.sensitive" class="crd_sensitive_badge">
+                                            <i class="fa fa-shield"/> Sensitive
+                                        </span>
+                                    </span>
+                                    <span class="crd_report_description" t-esc="report.description"/>
+                                    <span class="crd_report_footer">
+                                        <span class="crd_format_badge">
+                                            <i class="fa fa-download"/>
+                                            <t t-esc="report.format"/>
+                                        </span>
+                                        <span class="crd_open_label">
+                                            <t t-if="state.openingAction === report.action">
+                                                <i class="fa fa-spinner fa-spin"/> Opening
+                                            </t>
+                                            <t t-else="">
+                                                Open report <i class="fa fa-arrow-right"/>
+                                            </t>
+                                        </span>
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <footer class="crd_footer">
+                        <div><i class="fa fa-info-circle"/> Reports open with their own filters and export controls.</div>
+                        <div><i class="fa fa-lock"/> Access is restricted to the COO reporting group.</div>
+                    </footer>
+                </main>
+            </div>
+        </div>
+    </t>
+</templates>

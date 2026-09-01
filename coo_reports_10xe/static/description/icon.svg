@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="COO Reports">
+  <defs>
+    <linearGradient id="background" x1="16" y1="8" x2="116" y2="124" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#56315f"/>
+      <stop offset="1" stop-color="#183c5c"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="42" y1="84" x2="86" y2="37" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#72d5a3"/>
+      <stop offset="1" stop-color="#d5f6e3"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#background)"/>
+  <rect x="24" y="22" width="80" height="84" rx="13" fill="#fff" fill-opacity=".12" stroke="#fff" stroke-opacity=".26" stroke-width="2"/>
+  <path d="M37 91V71a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v20H37Zm20 0V55a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v36H57Zm20 0V39a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v52H77Z" fill="url(#bar)"/>
+  <path d="M34 96h60" stroke="#fff" stroke-linecap="round" stroke-opacity=".75" stroke-width="4"/>
+  <circle cx="100" cy="28" r="10" fill="#72d5a3"/>
+  <path d="m96 28 3 3 6-7" fill="none" stroke="#173a58" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+</svg>

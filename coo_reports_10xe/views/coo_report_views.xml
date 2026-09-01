@@ -164,9 +164,23 @@
         <field name="target">new</field>
     </record>
 
+    <record id="action_coo_reports_dashboard" model="ir.actions.client">
+        <field name="name">COO Reports</field>
+        <field name="tag">coo_reports_10xe.dashboard</field>
+    </record>
+
     <menuitem id="menu_coo_reports_root"
               name="COO Reports"
+              action="coo_reports_10xe.action_coo_reports_dashboard"
+              web_icon="coo_reports_10xe,static/description/icon.svg"
               sequence="35"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_reports_overview"
+              name="Report Center"
+              parent="coo_reports_10xe.menu_coo_reports_root"
+              action="coo_reports_10xe.action_coo_reports_dashboard"
+              sequence="1"
               groups="coo_reports_10xe.group_coo_reports_ayesha"/>
 
     <menuitem id="menu_coo_reports_workforce"

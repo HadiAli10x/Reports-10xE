@@ -44,7 +44,7 @@ Place this repository on the Odoo addons path alongside these existing 10xE modu
 - `recruitment_10xE`
 - `time_off_balances`
 
-Update the Apps list, install **10xE COO Reports**, then sign in as Ayesha. A new **COO Reports** application appears in the app switcher.
+Update the Apps list, install or upgrade **10xE COO Reports**, then sign in as Ayesha. A new **COO Reports** application appears in the app switcher. Opening it launches the report-center dashboard, where every available report is grouped by its source module and can be searched or opened directly.
 
 ## Utilization definition
 

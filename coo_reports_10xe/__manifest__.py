@@ -1,6 +1,6 @@
 {
     "name": "10xE COO Reports",
-    "version": "19.0.1.1.0",
+    "version": "19.0.2.0.0",
     "summary": "A single, restricted reporting hub for the COO",
     "category": "Human Resources",
     "author": "10xEngineers",
@@ -18,6 +18,13 @@
         "security/ir.model.access.csv",
         "views/coo_report_views.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "coo_reports_10xe/static/src/dashboard/dashboard.js",
+            "coo_reports_10xe/static/src/dashboard/dashboard.xml",
+            "coo_reports_10xe/static/src/dashboard/dashboard.scss",
+        ],
+    },
     "application": True,
     "installable": True,
     "post_init_hook": "post_init_assign_ayesha",
