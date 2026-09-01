@@ -55,14 +55,6 @@ const REPORT_MODULES = [
             { name: "Applicant Stage Report", format: "Pivot / Export", action: "recruitment_10xE.action_applicant_stage_report_wizard" },
         ],
     },
-    {
-        key: "time_off",
-        name: "Time Off",
-        description: "Employee leave balances and availability.",
-        reports: [
-            { name: "Leave Balances", format: "List / Export", action: "time_off_balances.action_time_off_balance_wizard_server" },
-        ],
-    },
 ];
 
 

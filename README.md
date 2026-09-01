@@ -17,7 +17,6 @@ The same app also exposes the existing export workflows from its installed sourc
 - Daily Assignment Tracker: Assignment Completeness, Engineering Assignment Activity, Engineering Billing Classification, and Engineering Weekly Area.
 - Performance Appraisal: Peer Nominations, Goals and Reflection, Salary, Updated Managers, Promotions, Review Results, Director Calibration, Needs Improvement CC, CC Assessment Summary, and Manager-wise CC Misalignment.
 - Recruitment: Recruitment Dashboard (including XLSX export) and Applicant Stage Report (exportable pivot/list output).
-- Time Off: Leave Balances with an exportable detail list for all active employees in the COO's allowed companies.
 
 The hub grants the minimum wizard and read-only source-model access needed to run these exports. It does not imply the Assignment Owner, Recruiter, Leave Officer, HR Officer, or Appraisal Director roles, so those source applications do not become broadly visible to the COO account.
 
@@ -42,7 +41,6 @@ Place this repository on the Odoo addons path alongside these existing 10xE modu
 - `employee_appraisal`
 - `daily_assignment_tracker`
 - `recruitment_10xE`
-- `time_off_balances`
 
 Update the Apps list, install or upgrade **10xE COO Reports**, then sign in as Ayesha. A new **COO Reports** application appears in the app switcher. Opening it launches the report center, where every available report is grouped by its source module. Employee reports display inside the app and can also be exported. Reports from the operational modules open their original screens and keep their original filters and export behavior.
 

@@ -1,7 +1,7 @@
 import base64
 import io
 
-from odoo import api, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -137,31 +137,3 @@ class DirectorCalibrationReportWizard(models.TransientModel):
             "url": f"/web/content/{attachment.id}?download=true",
             "target": "new",
         }
-
-
-class TimeOffBalanceWizard(models.TransientModel):
-    _inherit = "time.off.balance.wizard"
-
-    @api.model
-    def _check_group_access(self):
-        if _is_coo_report_user(self):
-            return None
-        return super()._check_group_access()
-
-    @api.model
-    def _allowed_employee_domain(self):
-        if not _is_coo_report_user(self):
-            return super()._allowed_employee_domain()
-        company_ids = self.env.companies.ids or [self.env.company.id]
-        return [
-            ("active", "=", True),
-            ("x_active_inactive", "!=", "inactive"),
-            ("company_id", "in", company_ids),
-        ]
-
-    @api.depends_context("uid")
-    def _compute_scope(self):
-        if not _is_coo_report_user(self):
-            return super()._compute_scope()
-        for wizard in self:
-            wizard.scope = "officer"
