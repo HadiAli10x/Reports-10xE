@@ -319,4 +319,37 @@
               action="employee_appraisal.action_manager_cc_misalignment_report_wizard"
               sequence="100"
               groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_reports_recruitment"
+              name="Recruitment"
+              parent="coo_reports_10xe.menu_coo_reports_root"
+              sequence="40"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_recruitment_dashboard"
+              name="Recruitment Dashboard"
+              parent="coo_reports_10xe.menu_coo_reports_recruitment"
+              action="recruitment_10xE.action_recruitment_dashboard"
+              sequence="10"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_applicant_stage_report"
+              name="Applicant Stage Report"
+              parent="coo_reports_10xe.menu_coo_reports_recruitment"
+              action="recruitment_10xE.action_applicant_stage_report_wizard"
+              sequence="20"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_reports_time_off"
+              name="Time Off"
+              parent="coo_reports_10xe.menu_coo_reports_root"
+              sequence="50"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_time_off_balances"
+              name="Leave Balances"
+              parent="coo_reports_10xe.menu_coo_reports_time_off"
+              action="time_off_balances.action_time_off_balance_wizard_server"
+              sequence="10"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
 </odoo>
