@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_coo_report_dashboard_service,coo.report.dashboard.service,model_coo_report_dashboard_service,coo_reports_10xe.group_coo_reports_ayesha,1,1,1,1
 access_coo_org_chart_report_wizard,coo.org.chart.report.wizard,model_coo_org_chart_report_wizard,coo_reports_10xe.group_coo_reports_ayesha,1,1,1,1
 access_coo_employee_experience_report_wizard,coo.employee.experience.report.wizard,model_coo_employee_experience_report_wizard,coo_reports_10xe.group_coo_reports_ayesha,1,1,1,1
 access_coo_manager_direct_reports_wizard,coo.manager.direct.reports.wizard,model_coo_manager_direct_reports_wizard,coo_reports_10xe.group_coo_reports_ayesha,1,1,1,1

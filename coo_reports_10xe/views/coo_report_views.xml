@@ -139,13 +139,8 @@
                         <p>Export client, internal, recorded, and unreported capacity from submitted assignment entries.</p>
                     </div>
                     <group>
-                        <group>
-                            <field name="start_date"/>
-                            <field name="end_date"/>
-                        </group>
-                        <group>
-                            <field name="department_id" options="{'no_create': True}"/>
-                        </group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
                     </group>
                 </sheet>
                 <footer>

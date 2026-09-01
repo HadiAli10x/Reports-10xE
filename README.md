@@ -10,7 +10,7 @@
 | Employees | Single Employee Experience | Employee master data + appraisal history | XLSX (summary and history sheets) |
 | Employees | Managers' Direct Reports | Employees / manager hierarchy | XLSX (detail and summary sheets) |
 | Daily Assignment Tracker | Assignments Report | Assignment allocations | XLSX (detail and summary sheets) |
-| Daily Assignment Tracker | Utilization | Submitted daily assignment entries | XLSX (employee, department, and methodology sheets) |
+| Daily Assignment Tracker | Utilization | Submitted daily assignment entries for all active employees | XLSX (employee, department, and methodology sheets) |
 
 The same app also exposes the existing export workflows from its installed source modules under their module names:
 
@@ -44,11 +44,11 @@ Place this repository on the Odoo addons path alongside these existing 10xE modu
 - `recruitment_10xE`
 - `time_off_balances`
 
-Update the Apps list, install or upgrade **10xE COO Reports**, then sign in as Ayesha. A new **COO Reports** application appears in the app switcher. Opening it launches the report-center dashboard, where every available report is grouped by its source module and can be searched or opened directly.
+Update the Apps list, install or upgrade **10xE COO Reports**, then sign in as Ayesha. A new **COO Reports** application appears in the app switcher. Opening it launches the report center, where every available report is grouped by its source module. Employee reports display inside the app and can also be exported. Reports from the operational modules open their original screens and keep their original filters and export behavior.
 
 ## Utilization definition
 
-Utilization uses submitted Daily Assignment Tracker entries over Monday-Friday days in the selected range:
+Utilization uses submitted Daily Assignment Tracker entries over Monday-Friday days in the selected range and always includes every active employee; it does not filter by department. From the report center it exports the current month immediately. The Daily Assignment Tracker menu entry remains available when a different date range is needed.
 
 - Client utilization = percentage-weighted client-assignment weekdays / expected weekdays.
 - Internal percentage = percentage-weighted internal-assignment weekdays / expected weekdays.

@@ -1,148 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="coo_reports_10xe.CooReportsDashboard">
-        <div class="crd_page">
-            <div class="crd_shell">
-                <header class="crd_hero">
-                    <div class="crd_hero_content">
-                        <div class="crd_hero_mark" aria-hidden="true">
-                            <i class="fa fa-bar-chart"/>
-                        </div>
-                        <div class="crd_hero_copy">
-                            <div class="crd_kicker">
-                                <span class="crd_live_dot"/>
-                                Executive reporting center
-                            </div>
+        <div class="coo_report_page">
+            <div class="coo_report_shell">
+                <t t-if="state.view === 'index'">
+                    <header class="coo_page_header">
+                        <div>
                             <h1>COO Reports</h1>
-                            <p>One place for workforce, delivery, performance, hiring, and availability reports.</p>
+                            <p>Select a report to view or export.</p>
                         </div>
-                        <div class="crd_hero_stats">
-                            <div class="crd_stat">
-                                <strong t-esc="modules.length"/>
-                                <span>Modules</span>
-                            </div>
-                            <div class="crd_stat">
-                                <strong t-esc="totalReportCount"/>
-                                <span>Reports</span>
-                            </div>
-                            <div class="crd_access_badge">
-                                <i class="fa fa-lock"/>
-                                COO access
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="crd_controls">
-                        <label class="crd_search">
-                            <i class="fa fa-search" aria-hidden="true"/>
+                        <label class="coo_search">
+                            <i class="fa fa-search"/>
                             <input type="search"
-                                   placeholder="Search reports, modules, or export formats..."
+                                   placeholder="Search reports"
                                    t-att-value="state.query"
                                    t-on-input="onSearch"/>
-                            <button t-if="state.query"
-                                    type="button"
-                                    class="crd_search_clear"
-                                    title="Clear search"
-                                    t-on-click="clearSearch">
-                                <i class="fa fa-times"/>
-                            </button>
                         </label>
-                        <nav class="crd_module_nav" aria-label="Report modules">
-                            <t t-foreach="modules" t-as="module" t-key="module.key">
-                                <button type="button"
-                                        t-attf-class="crd_nav_pill crd_nav_{{ module.color }}"
-                                        t-on-click="() => this.scrollToModule(module.key)">
-                                    <i t-attf-class="fa {{ module.icon }}"/>
-                                    <span t-esc="module.name"/>
-                                    <small t-esc="module.reports.length"/>
-                                </button>
-                            </t>
-                        </nav>
-                    </div>
-                </header>
+                    </header>
 
-                <main class="crd_content">
-                    <div class="crd_result_bar">
-                        <div>
-                            <strong t-esc="state.query ? 'Search results' : 'All report modules'"/>
-                            <span t-if="state.query">
-                                for “<t t-esc="state.query"/>”
-                            </span>
-                        </div>
-                        <span>
-                            <t t-esc="visibleReportCount"/>
-                            <t t-esc="visibleReportCount === 1 ? ' report' : ' reports'"/>
-                        </span>
-                    </div>
-
-                    <div t-if="!visibleModules.length" class="crd_empty">
-                        <div class="crd_empty_icon"><i class="fa fa-search"/></div>
-                        <h2>No reports found</h2>
-                        <p>Try a module name such as Employees, Appraisal, Recruitment, or Utilization.</p>
-                        <button type="button" class="crd_clear_button" t-on-click="clearSearch">Show all reports</button>
-                    </div>
-
-                    <section t-foreach="visibleModules"
-                             t-as="module"
-                             t-key="module.key"
-                             t-attf-id="crd-module-{{ module.key }}"
-                             t-attf-class="crd_module crd_module_{{ module.color }}">
-                        <div class="crd_module_header">
-                            <div class="crd_module_icon" aria-hidden="true">
-                                <i t-attf-class="fa {{ module.icon }}"/>
+                    <main class="coo_module_list">
+                        <section t-foreach="visibleModules"
+                                 t-as="module"
+                                 t-key="module.key"
+                                 class="coo_module">
+                            <div class="coo_module_heading">
+                                <div>
+                                    <h2 t-esc="module.name"/>
+                                    <p t-esc="module.description"/>
+                                </div>
+                                <span><t t-esc="module.reports.length"/> reports</span>
                             </div>
-                            <div class="crd_module_title">
-                                <span t-esc="module.eyebrow"/>
-                                <h2 t-esc="module.name"/>
-                                <p t-esc="module.description"/>
-                            </div>
-                            <div class="crd_module_count">
-                                <strong t-esc="module.reports.length"/>
-                                <span t-esc="module.reports.length === 1 ? 'Report' : 'Reports'"/>
-                            </div>
-                        </div>
-
-                        <div class="crd_report_grid">
-                            <button t-foreach="module.reports"
-                                    t-as="report"
-                                    t-key="report.action"
-                                    type="button"
-                                    class="crd_report_card"
-                                    t-att-disabled="state.openingAction"
-                                    t-on-click="() => this.openReport(report)">
-                                <span class="crd_report_accent"/>
-                                <span class="crd_report_body">
-                                    <span class="crd_report_heading">
+                            <div class="coo_report_rows">
+                                <button t-foreach="module.reports"
+                                        t-as="report"
+                                        t-key="report.name"
+                                        type="button"
+                                        class="coo_report_row"
+                                        t-att-disabled="state.busyKey"
+                                        t-on-click="() => this.openReport(report)">
+                                    <span class="coo_report_name">
                                         <strong t-esc="report.name"/>
-                                        <span t-if="report.sensitive" class="crd_sensitive_badge">
-                                            <i class="fa fa-shield"/> Sensitive
-                                        </span>
+                                        <small t-if="report.sensitive"><i class="fa fa-lock"/> Sensitive</small>
                                     </span>
-                                    <span class="crd_report_description" t-esc="report.description"/>
-                                    <span class="crd_report_footer">
-                                        <span class="crd_format_badge">
-                                            <i class="fa fa-download"/>
-                                            <t t-esc="report.format"/>
-                                        </span>
-                                        <span class="crd_open_label">
-                                            <t t-if="state.openingAction === report.action">
-                                                <i class="fa fa-spinner fa-spin"/> Opening
-                                            </t>
-                                            <t t-else="">
-                                                Open report <i class="fa fa-arrow-right"/>
-                                            </t>
-                                        </span>
+                                    <span class="coo_report_format" t-esc="report.format"/>
+                                    <span class="coo_report_action">
+                                        <i t-if="state.busyKey === report.action || (report.quickExport &amp;&amp; state.busyKey === 'utilization')"
+                                           class="fa fa-spinner fa-spin"/>
+                                        <t t-else="" t-esc="reportButtonText(report)"/>
                                     </span>
-                                </span>
-                            </button>
-                        </div>
-                    </section>
+                                </button>
+                            </div>
+                        </section>
 
-                    <footer class="crd_footer">
-                        <div><i class="fa fa-info-circle"/> Reports open with their own filters and export controls.</div>
-                        <div><i class="fa fa-lock"/> Access is restricted to the COO reporting group.</div>
-                    </footer>
-                </main>
+                        <div t-if="!visibleModules.length" class="coo_empty">
+                            No reports match your search.
+                        </div>
+                    </main>
+                </t>
+
+                <t t-else="">
+                    <header class="coo_viewer_header">
+                        <button type="button" class="btn btn-light" t-on-click="backToReports">
+                            <i class="fa fa-arrow-left"/> Back to reports
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary"
+                                t-att-disabled="state.busyKey || (state.employeeReportKey === 'experience' &amp;&amp; !state.selectedId)"
+                                t-on-click="exportEmployeeReport">
+                            <i t-attf-class="fa {{ state.busyKey === 'employee-export' ? 'fa-spinner fa-spin' : 'fa-download' }}"/>
+                            Export XLSX
+                        </button>
+                    </header>
+
+                    <div t-if="state.busyKey &amp;&amp; !state.reportData" class="coo_loading">
+                        <i class="fa fa-spinner fa-spin"/> Loading report...
+                    </div>
+
+                    <main t-if="state.reportData" class="coo_viewer">
+                        <div class="coo_viewer_title">
+                            <div>
+                                <h1 t-esc="state.reportData.title"/>
+                                <p t-esc="state.reportData.description"/>
+                            </div>
+                            <label t-if="state.reportData.selector" class="coo_selector">
+                                <span t-esc="state.reportData.selector === 'employee' ? 'Employee' : 'Manager'"/>
+                                <select t-on-change="onSelectorChange">
+                                    <option value="">
+                                        <t t-esc="state.reportData.selector === 'employee' ? 'Select an active employee' : 'All active managers'"/>
+                                    </option>
+                                    <option t-foreach="state.reportData.options"
+                                            t-as="option"
+                                            t-key="option.id"
+                                            t-att-value="option.id"
+                                            t-att-selected="option.id === state.selectedId"
+                                            t-esc="option.name"/>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div t-if="state.reportData.selector === 'employee' &amp;&amp; !state.selectedId"
+                             class="coo_prompt">
+                            Select an active employee to view the report.
+                        </div>
+
+                        <section t-foreach="state.reportData.sections"
+                                 t-as="section"
+                                 t-key="section.title"
+                                 class="coo_table_section">
+                            <div class="coo_table_heading">
+                                <h2 t-esc="section.title"/>
+                                <span><t t-esc="section.rows.length"/> rows</span>
+                            </div>
+                            <div class="coo_table_wrap">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th t-foreach="section.columns"
+                                                t-as="column"
+                                                t-key="column.key"
+                                                t-esc="column.label"/>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="section.rows" t-as="row" t-key="row_index">
+                                            <td t-foreach="section.columns"
+                                                t-as="column"
+                                                t-key="column.key"
+                                                t-esc="row[column.key]"/>
+                                        </tr>
+                                        <tr t-if="!section.rows.length">
+                                            <td t-att-colspan="section.columns.length" class="coo_no_rows">No records found.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </main>
+                </t>
             </div>
         </div>
     </t>

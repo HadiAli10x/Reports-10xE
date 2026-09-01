@@ -459,7 +459,6 @@ class CooUtilizationReportWizard(models.TransientModel):
         default=lambda self: fields.Date.context_today(self).replace(day=1),
     )
     end_date = fields.Date(string="To", required=True, default=fields.Date.context_today)
-    department_id = fields.Many2one("hr.department", string="Department")
 
     def action_export_xlsx(self):
         self.ensure_one()
@@ -470,10 +469,9 @@ class CooUtilizationReportWizard(models.TransientModel):
         if not workdays:
             raise UserError(_("The selected period has no weekdays."))
 
-        domain = self._active_employee_domain()
-        if self.department_id:
-            domain.append(("department_id", "=", self.department_id.id))
-        employees = self.env["hr.employee"].sudo().search(domain, order="department_id, name")
+        employees = self.env["hr.employee"].sudo().search(
+            self._active_employee_domain(), order="department_id, name"
+        )
         entries = self.env["daily.assignment.entry"].sudo().search([
             ("employee_id", "in", employees.ids),
             ("state", "=", "submitted"),
