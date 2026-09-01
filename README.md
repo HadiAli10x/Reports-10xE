@@ -48,7 +48,7 @@ Update the Apps list, install or upgrade **10xE COO Reports**, then sign in as A
 
 ## Utilization definition
 
-Utilization uses submitted Daily Assignment Tracker entries over Monday-Friday days in the selected range and always includes every active employee; it does not filter by department. From the report center it exports the current month immediately. The Daily Assignment Tracker menu entry remains available when a different date range is needed.
+Utilization uses submitted Daily Assignment Tracker entries over Monday-Friday days in the selected From/To range and always includes every active employee; it does not filter by department. Opening the report asks for only those two dates before export.
 
 - Client utilization = percentage-weighted client-assignment weekdays / expected weekdays.
 - Internal percentage = percentage-weighted internal-assignment weekdays / expected weekdays.

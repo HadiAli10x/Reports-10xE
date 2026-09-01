@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
+    <t t-name="coo_reports_10xe.OrganizationNode">
+        <div class="coo_org_branch">
+            <div class="coo_org_person">
+                <button t-if="props.node.children.length"
+                        type="button"
+                        class="coo_org_toggle"
+                        t-att-title="state.expanded ? 'Collapse team' : 'Expand team'"
+                        t-on-click="toggle">
+                    <i t-attf-class="fa {{ state.expanded ? 'fa-minus-square-o' : 'fa-plus-square-o' }}"/>
+                </button>
+                <span t-else="" class="coo_org_toggle_placeholder"/>
+                <span class="coo_org_avatar" t-esc="props.node.initials"/>
+                <span class="coo_org_identity">
+                    <strong t-esc="props.node.name"/>
+                    <small>
+                        <t t-esc="props.node.designation || 'No designation'"/>
+                        <t t-if="props.node.department"> · <t t-esc="props.node.department"/></t>
+                    </small>
+                </span>
+                <span t-if="props.node.code" class="coo_org_code">#<t t-esc="props.node.code"/></span>
+                <span t-if="props.node.email" class="coo_org_email" t-esc="props.node.email"/>
+                <span t-if="props.node.children.length" class="coo_org_team_count">
+                    <t t-esc="props.node.children.length"/>
+                    <t t-esc="props.node.children.length === 1 ? ' report' : ' reports'"/>
+                </span>
+            </div>
+            <div t-if="props.node.children.length &amp;&amp; state.expanded" class="coo_org_children">
+                <OrganizationNode t-foreach="props.node.children"
+                                  t-as="child"
+                                  t-key="child.id"
+                                  node="child"/>
+            </div>
+        </div>
+    </t>
+
     <t t-name="coo_reports_10xe.CooReportsDashboard">
         <div class="coo_report_page">
             <div class="coo_report_shell">
@@ -44,7 +79,7 @@
                                     </span>
                                     <span class="coo_report_format" t-esc="report.format"/>
                                     <span class="coo_report_action">
-                                        <i t-if="state.busyKey === report.action || (report.quickExport &amp;&amp; state.busyKey === 'utilization')"
+                                        <i t-if="state.busyKey === report.action"
                                            class="fa fa-spinner fa-spin"/>
                                         <t t-else="" t-esc="reportButtonText(report)"/>
                                     </span>
@@ -82,26 +117,54 @@
                                 <h1 t-esc="state.reportData.title"/>
                                 <p t-esc="state.reportData.description"/>
                             </div>
-                            <label t-if="state.reportData.selector" class="coo_selector">
-                                <span t-esc="state.reportData.selector === 'employee' ? 'Employee' : 'Manager'"/>
-                                <select t-on-change="onSelectorChange">
-                                    <option value="">
-                                        <t t-esc="state.reportData.selector === 'employee' ? 'Select an active employee' : 'All active managers'"/>
-                                    </option>
-                                    <option t-foreach="state.reportData.options"
-                                            t-as="option"
-                                            t-key="option.id"
-                                            t-att-value="option.id"
-                                            t-att-selected="option.id === state.selectedId"
-                                            t-esc="option.name"/>
-                                </select>
-                            </label>
+                            <div t-if="state.reportData.selector" class="coo_selector">
+                                <label t-if="state.reportData.selector === 'employee'" class="coo_selector_field">
+                                    <span>Search active employees</span>
+                                    <span class="coo_selector_input">
+                                        <i class="fa fa-search"/>
+                                        <input type="search"
+                                               placeholder="Name, code, or work email"
+                                               t-att-value="state.employeeSearch"
+                                               t-on-input="onEmployeeSearch"/>
+                                    </span>
+                                </label>
+                                <label class="coo_selector_field">
+                                    <span t-esc="state.reportData.selector === 'employee' ? 'Employee' : 'Manager'"/>
+                                    <select t-on-change="onSelectorChange">
+                                        <option value="">
+                                            <t t-esc="state.reportData.selector === 'employee' ? 'Select an active employee' : 'All active managers'"/>
+                                        </option>
+                                        <option t-foreach="filteredSelectorOptions"
+                                                t-as="option"
+                                                t-key="option.id"
+                                                t-att-value="option.id"
+                                                t-att-selected="option.id === state.selectedId"
+                                                t-esc="option.label"/>
+                                    </select>
+                                </label>
+                            </div>
                         </div>
 
                         <div t-if="state.reportData.selector === 'employee' &amp;&amp; !state.selectedId"
                              class="coo_prompt">
-                            Select an active employee to view the report.
+                            <t t-if="state.employeeSearch &amp;&amp; !filteredSelectorOptions.length">
+                                No active employees match your search.
+                            </t>
+                            <t t-else="">Search for and select an active employee to view the report.</t>
                         </div>
+
+                        <section t-if="state.employeeReportKey === 'organization'" class="coo_org_section">
+                            <div class="coo_table_heading">
+                                <h2>Active employee hierarchy</h2>
+                                <span><t t-esc="state.reportData.employee_count"/> active employees</span>
+                            </div>
+                            <div class="coo_org_tree">
+                                <OrganizationNode t-foreach="state.reportData.organization_tree"
+                                                  t-as="rootNode"
+                                                  t-key="rootNode.id"
+                                                  node="rootNode"/>
+                            </div>
+                        </section>
 
                         <section t-foreach="state.reportData.sections"
                                  t-as="section"

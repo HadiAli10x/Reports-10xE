@@ -1,6 +1,6 @@
 {
     "name": "10xE COO Reports",
-    "version": "19.0.3.0.0",
+    "version": "19.0.3.1.0",
     "summary": "A single, restricted reporting hub for the COO",
     "category": "Human Resources",
     "author": "10xEngineers",

@@ -22,7 +22,7 @@ const REPORT_MODULES = [
         description: "Assignments, completion, classification, and utilization.",
         reports: [
             { name: "Assignments Report", format: "XLSX", action: "coo_reports_10xe.action_coo_assignments_report" },
-            { name: "Utilization", format: "All active employees / XLSX", quickExport: true },
+            { name: "Utilization", format: "Choose dates / XLSX", action: "coo_reports_10xe.action_coo_utilization_report" },
             { name: "Assignment Completeness", format: "XLSX", action: "daily_assignment_tracker.action_daily_assignment_completeness_report" },
             { name: "Engineering Assignment Activity", format: "XLSX", action: "daily_assignment_tracker.action_daily_assignment_engineering_report" },
             { name: "Engineering Billing Classification", format: "XLSX", action: "daily_assignment_tracker.action_daily_assignment_engineering_classification_report" },
@@ -66,9 +66,26 @@ const REPORT_MODULES = [
 ];
 
 
+class OrganizationNode extends Component {
+    static template = "coo_reports_10xe.OrganizationNode";
+    static props = ["node"];
+
+    setup() {
+        this.state = useState({ expanded: true });
+    }
+
+    toggle() {
+        this.state.expanded = !this.state.expanded;
+    }
+}
+
+OrganizationNode.components = { OrganizationNode };
+
+
 class CooReportsDashboard extends Component {
     static template = "coo_reports_10xe.CooReportsDashboard";
     static props = ["*"];
+    static components = { OrganizationNode };
 
     setup() {
         this.action = useService("action");
@@ -81,6 +98,7 @@ class CooReportsDashboard extends Component {
             busyKey: null,
             employeeReportKey: null,
             selectedId: false,
+            employeeSearch: "",
             reportData: null,
         });
     }
@@ -105,12 +123,26 @@ class CooReportsDashboard extends Component {
         this.state.query = event.target.value;
     }
 
+    get filteredSelectorOptions() {
+        const options = this.state.reportData?.options || [];
+        if (this.state.reportData?.selector !== "employee") {
+            return options;
+        }
+        const query = this.state.employeeSearch.trim().toLocaleLowerCase();
+        return query
+            ? options.filter((option) =>
+                option.id === this.state.selectedId || option.search.includes(query)
+            )
+            : options;
+    }
+
+    onEmployeeSearch(event) {
+        this.state.employeeSearch = event.target.value;
+    }
+
     reportButtonText(report) {
         if (report.employeeKey) {
             return "View report";
-        }
-        if (report.quickExport) {
-            return "Export XLSX";
         }
         return "Open";
     }
@@ -120,11 +152,8 @@ class CooReportsDashboard extends Component {
             return;
         }
         if (report.employeeKey) {
+            this.state.employeeSearch = "";
             await this.loadEmployeeReport(report.employeeKey, false);
-            return;
-        }
-        if (report.quickExport) {
-            await this.exportUtilization();
             return;
         }
         this.state.busyKey = report.action;
@@ -169,6 +198,7 @@ class CooReportsDashboard extends Component {
         this.state.view = "index";
         this.state.employeeReportKey = null;
         this.state.selectedId = false;
+        this.state.employeeSearch = "";
         this.state.reportData = null;
     }
 
@@ -194,21 +224,6 @@ class CooReportsDashboard extends Component {
             await this.action.doAction(downloadAction);
         } catch (error) {
             this.showError("Could not export the employee report.", error);
-        } finally {
-            this.state.busyKey = null;
-        }
-    }
-
-    async exportUtilization() {
-        this.state.busyKey = "utilization";
-        try {
-            const downloadAction = await this.orm.call(
-                "coo.report.dashboard.service",
-                "export_utilization"
-            );
-            await this.action.doAction(downloadAction);
-        } catch (error) {
-            this.showError("Could not export utilization.", error);
         } finally {
             this.state.busyKey = null;
         }

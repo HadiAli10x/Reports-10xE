@@ -196,8 +196,14 @@
 }
 
 .coo_selector {
+    display: grid;
+    min-width: 360px;
+    grid-template-columns: repeat(2, minmax(230px, 1fr));
+    gap: 10px;
+}
+
+.coo_selector_field {
     display: flex;
-    min-width: 320px;
     flex-direction: column;
     gap: 5px;
     color: #4b5563;
@@ -205,7 +211,8 @@
     font-weight: 600;
 }
 
-.coo_selector select {
+.coo_selector_field select,
+.coo_selector_input {
     height: 38px;
     padding: 0 10px;
     border: 1px solid #cfd4db;
@@ -213,6 +220,22 @@
     color: #202124;
     background: #fff;
     font-size: 13px;
+}
+
+.coo_selector_input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7a828e;
+}
+
+.coo_selector_input input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    outline: 0;
+    color: #202124;
+    background: transparent;
 }
 
 .coo_prompt {
@@ -225,6 +248,135 @@
     border: 1px solid #dde1e7;
     border-radius: 8px;
     background: #fff;
+}
+
+.coo_org_section {
+    overflow: hidden;
+    border: 1px solid #dde1e7;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.coo_org_tree {
+    max-height: calc(100vh - 255px);
+    min-height: 360px;
+    padding: 18px;
+    overflow: auto;
+    background: #fbfbfc;
+}
+
+.coo_org_branch {
+    position: relative;
+    min-width: 760px;
+}
+
+.coo_org_branch + .coo_org_branch {
+    margin-top: 8px;
+}
+
+.coo_org_person {
+    display: grid;
+    min-height: 52px;
+    grid-template-columns: 22px 34px minmax(210px, 1fr) auto minmax(180px, auto) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 11px;
+    border: 1px solid #dfe2e7;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.coo_org_toggle {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    color: #655187;
+    background: transparent;
+    font-size: 15px;
+}
+
+.coo_org_toggle_placeholder {
+    width: 22px;
+}
+
+.coo_org_avatar {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: #6d5a8d;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.coo_org_identity {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.coo_org_identity strong {
+    overflow: hidden;
+    color: #25282d;
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.coo_org_identity small {
+    overflow: hidden;
+    margin-top: 2px;
+    color: #707782;
+    font-size: 11px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.coo_org_code,
+.coo_org_email,
+.coo_org_team_count {
+    color: #68707b;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.coo_org_code {
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #f0f1f3;
+}
+
+.coo_org_email {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.coo_org_team_count {
+    padding: 3px 7px;
+    border-radius: 10px;
+    color: #594378;
+    background: #f0ecf5;
+    font-weight: 600;
+}
+
+.coo_org_children {
+    margin: 7px 0 2px 27px;
+    padding-left: 27px;
+    border-left: 1px solid #c9ced6;
+}
+
+.coo_org_children > .coo_org_branch::before {
+    position: absolute;
+    top: 26px;
+    left: -27px;
+    width: 26px;
+    border-top: 1px solid #c9ced6;
+    content: "";
 }
 
 .coo_table_heading {
@@ -298,6 +450,10 @@
     .coo_selector {
         width: 100%;
         min-width: 0;
+    }
+
+    .coo_selector {
+        grid-template-columns: 1fr;
     }
 
     .coo_report_row {

@@ -25,7 +25,20 @@ class CooReportDashboardService(models.TransientModel):
         )
 
     def _options(self, employees):
-        return [{"id": employee.id, "name": employee.name or ""} for employee in employees]
+        helper = self._helper()
+        options = []
+        for employee in employees:
+            name = employee.name or ""
+            code = helper._employee_code(employee)
+            email = employee.work_email or employee.user_id.email or ""
+            label = f"{name} ({code})" if code else name
+            options.append({
+                "id": employee.id,
+                "name": name,
+                "label": label,
+                "search": f"{name} {code} {email}".casefold(),
+            })
+        return options
 
     @api.model
     def get_employee_report(self, report_key, selected_id=False):
@@ -58,52 +71,66 @@ class CooReportDashboardService(models.TransientModel):
             raise ValidationError(_("Unknown employee report."))
         return wizard.action_export_xlsx()
 
-    @api.model
-    def export_utilization(self):
-        self._check_access()
-        wizard = self.env["coo.utilization.report.wizard"].create({})
-        return wizard.action_export_xlsx()
-
     def _organization_report(self, selected_id=False):
         helper = self._helper()
         employees = self._active_employees()
-        employee_ids = set(employees.ids)
-        ordered = sorted(
-            employees,
-            key=lambda employee: helper._hierarchy_path(employee, employee_ids),
-        )
-        rows = []
-        for employee in ordered:
-            level = helper._hierarchy_level(employee, employee_ids)
-            rows.append({
-                "employee": f"{'  ' * level}{employee.name or ''}",
+        employee_by_id = {employee.id: employee for employee in employees}
+        active_ids = set(employee_by_id)
+        nodes = {}
+        for employee in employees:
+            name_parts = (employee.name or "?").split()
+            initials = (
+                f"{name_parts[0][0]}{name_parts[-1][0]}" if len(name_parts) > 1
+                else name_parts[0][0]
+            ).upper()
+            nodes[employee.id] = {
+                "id": employee.id,
+                "name": employee.name or "",
+                "initials": initials,
                 "code": helper._employee_code(employee),
                 "designation": helper._employee_designation(employee),
                 "department": helper._employee_department(employee),
                 "manager": employee.parent_id.name or "",
                 "email": employee.work_email or employee.user_id.email or "",
-                "direct_reports": len(employee.child_ids.filtered(helper._is_active_employee)),
-            })
+                "children": [],
+            }
+
+        roots = []
+        for employee in employees:
+            parent_id = employee.parent_id.id
+            if parent_id in active_ids and not self._creates_hierarchy_cycle(
+                employee.id, parent_id, employee_by_id
+            ):
+                nodes[parent_id]["children"].append(nodes[employee.id])
+            else:
+                roots.append(nodes[employee.id])
+        self._sort_hierarchy_nodes(roots)
+
         return {
             "title": "Organization Chart",
-            "description": "All active employees and their reporting lines.",
+            "description": "Complete reporting hierarchy for all active employees.",
             "selector": False,
             "selected_id": False,
             "options": [],
-            "sections": [{
-                "title": "Active organization",
-                "columns": [
-                    {"key": "employee", "label": "Employee"},
-                    {"key": "code", "label": "Code"},
-                    {"key": "designation", "label": "Designation"},
-                    {"key": "department", "label": "Department"},
-                    {"key": "manager", "label": "Reports To"},
-                    {"key": "email", "label": "Work Email"},
-                    {"key": "direct_reports", "label": "Direct Reports"},
-                ],
-                "rows": rows,
-            }],
+            "employee_count": len(employees),
+            "organization_tree": roots,
+            "sections": [],
         }
+
+    def _creates_hierarchy_cycle(self, employee_id, parent_id, employee_by_id):
+        seen = {employee_id}
+        current_id = parent_id
+        while current_id in employee_by_id:
+            if current_id in seen:
+                return True
+            seen.add(current_id)
+            current_id = employee_by_id[current_id].parent_id.id
+        return False
+
+    def _sort_hierarchy_nodes(self, nodes):
+        nodes.sort(key=lambda node: node["name"].casefold())
+        for node in nodes:
+            self._sort_hierarchy_nodes(node["children"])
 
     def _experience_report(self, selected_id=False):
         helper = self.env["coo.employee.experience.report.wizard"].new({})
