@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_coo_reports" model="ir.module.category">
+        <field name="name">COO Reports</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <record id="res_groups_privilege_coo_reports" model="res.groups.privilege">
+        <field name="name">COO Reports</field>
+        <field name="category_id" ref="coo_reports_10xe.module_category_coo_reports"/>
+        <field name="sequence">90</field>
+    </record>
+
+    <record id="group_coo_reports_ayesha" model="res.groups">
+        <field name="name">Ayesha - COO Reports</field>
+        <field name="privilege_id" ref="coo_reports_10xe.res_groups_privilege_coo_reports"/>
+        <field name="sequence">10</field>
+        <field name="comment">Restricted access to the consolidated COO reporting hub. Assign only to Ayesha.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('base.group_allow_export'))]"/>
+    </record>
+</odoo>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_coo_org_chart_report_wizard_form" model="ir.ui.view">
+        <field name="name">coo.org.chart.report.wizard.form</field>
+        <field name="model">coo.org.chart.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Organization Chart">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Organization Chart</h1>
+                        <p>Export the active reporting hierarchy for the whole company or a selected branch.</p>
+                    </div>
+                    <group>
+                        <field name="root_employee_id" options="{'no_create': True}"/>
+                        <field name="department_id" options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export_xlsx" type="object" string="Export XLSX" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coo_org_chart_report" model="ir.actions.act_window">
+        <field name="name">Organization Chart</field>
+        <field name="res_model">coo.org.chart.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="coo_reports_10xe.view_coo_org_chart_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_coo_employee_experience_report_wizard_form" model="ir.ui.view">
+        <field name="name">coo.employee.experience.report.wizard.form</field>
+        <field name="model">coo.employee.experience.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Single Employee Experience">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Single Employee Experience</h1>
+                        <p>Export the current experience summary and appraisal history for one active employee.</p>
+                    </div>
+                    <group>
+                        <field name="employee_id" options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export_xlsx" type="object" string="Export XLSX" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coo_employee_experience_report" model="ir.actions.act_window">
+        <field name="name">Single Employee Experience</field>
+        <field name="res_model">coo.employee.experience.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="coo_reports_10xe.view_coo_employee_experience_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_coo_manager_direct_reports_wizard_form" model="ir.ui.view">
+        <field name="name">coo.manager.direct.reports.wizard.form</field>
+        <field name="model">coo.manager.direct.reports.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Managers and Direct Reports">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Managers and Direct Reports</h1>
+                        <p>Export all active manager/direct-report relationships or select one active manager.</p>
+                    </div>
+                    <group>
+                        <field name="manager_id" options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export_xlsx" type="object" string="Export XLSX" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coo_manager_direct_reports" model="ir.actions.act_window">
+        <field name="name">Managers' Direct Reports</field>
+        <field name="res_model">coo.manager.direct.reports.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="coo_reports_10xe.view_coo_manager_direct_reports_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_coo_assignments_report_wizard_form" model="ir.ui.view">
+        <field name="name">coo.assignments.report.wizard.form</field>
+        <field name="model">coo.assignments.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assignments Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Assignments Report</h1>
+                        <p>Export assignment allocations overlapping the selected reporting period.</p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="include_drafts"/>
+                            <field name="active_employees_only"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export_xlsx" type="object" string="Export XLSX" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coo_assignments_report" model="ir.actions.act_window">
+        <field name="name">Assignments Report</field>
+        <field name="res_model">coo.assignments.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="coo_reports_10xe.view_coo_assignments_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_coo_utilization_report_wizard_form" model="ir.ui.view">
+        <field name="name">coo.utilization.report.wizard.form</field>
+        <field name="model">coo.utilization.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Utilization">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Utilization</h1>
+                        <p>Export client, internal, recorded, and unreported capacity from submitted assignment entries.</p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="department_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_export_xlsx" type="object" string="Export XLSX" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coo_utilization_report" model="ir.actions.act_window">
+        <field name="name">Utilization</field>
+        <field name="res_model">coo.utilization.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="coo_reports_10xe.view_coo_utilization_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_coo_reports_root"
+              name="COO Reports"
+              sequence="35"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_reports_workforce"
+              name="Employees"
+              parent="coo_reports_10xe.menu_coo_reports_root"
+              sequence="10"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_org_chart_report"
+              name="Organization Chart"
+              parent="coo_reports_10xe.menu_coo_reports_workforce"
+              action="coo_reports_10xe.action_coo_org_chart_report"
+              sequence="10"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_employee_experience_report"
+              name="Single Employee Experience"
+              parent="coo_reports_10xe.menu_coo_reports_workforce"
+              action="coo_reports_10xe.action_coo_employee_experience_report"
+              sequence="20"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_manager_direct_reports"
+              name="Managers' Direct Reports"
+              parent="coo_reports_10xe.menu_coo_reports_workforce"
+              action="coo_reports_10xe.action_coo_manager_direct_reports"
+              sequence="30"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_reports_assignments"
+              name="Daily Assignment Tracker"
+              parent="coo_reports_10xe.menu_coo_reports_root"
+              sequence="20"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_assignments_report"
+              name="Assignments Report"
+              parent="coo_reports_10xe.menu_coo_reports_assignments"
+              action="coo_reports_10xe.action_coo_assignments_report"
+              sequence="10"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_utilization_report"
+              name="Utilization"
+              parent="coo_reports_10xe.menu_coo_reports_assignments"
+              action="coo_reports_10xe.action_coo_utilization_report"
+              sequence="20"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_assignment_completeness_report"
+              name="Assignment Completeness"
+              parent="coo_reports_10xe.menu_coo_reports_assignments"
+              action="daily_assignment_tracker.action_daily_assignment_completeness_report"
+              sequence="30"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_engineering_activity_report"
+              name="Engineering Assignment Activity"
+              parent="coo_reports_10xe.menu_coo_reports_assignments"
+              action="daily_assignment_tracker.action_daily_assignment_engineering_report"
+              sequence="40"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_engineering_classification_report"
+              name="Engineering Billing Classification"
+              parent="coo_reports_10xe.menu_coo_reports_assignments"
+              action="daily_assignment_tracker.action_daily_assignment_engineering_classification_report"
+              sequence="50"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_engineering_weekly_area_report"
+              name="Engineering Weekly Area"
+              parent="coo_reports_10xe.menu_coo_reports_assignments"
+              action="daily_assignment_tracker.action_daily_assignment_engineering_weekly_area_report"
+              sequence="60"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_reports_appraisal"
+              name="Performance Appraisal"
+              parent="coo_reports_10xe.menu_coo_reports_root"
+              sequence="30"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_peer_nomination_report_csv"
+              name="Peer Nominations (CSV)"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_peer_nomination_report_wizard"
+              sequence="10"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_goals_reflection_report"
+              name="Goals and Reflection"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_self_appraisal_goals_reflection_wizard"
+              sequence="20"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_salary_report"
+              name="Salary Report"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_rp_salary_wizard"
+              sequence="30"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_updated_managers_report"
+              name="Updated Managers"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_rp_updated_managers_wizard"
+              sequence="40"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_promotions_report"
+              name="Promotions"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_rp_promotions_wizard"
+              sequence="50"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_review_results_report"
+              name="Review Results"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_rp_review_results_wizard"
+              sequence="60"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_director_calibration_report"
+              name="Director Calibration"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_director_calibration_report_wizard"
+              sequence="70"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_needs_improvement_report"
+              name="Needs Improvement CC"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_director_needs_improvement_cc_report_wizard"
+              sequence="80"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_cc_assessment_summary_report"
+              name="CC Assessment Summary"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_director_cc_assessment_summary_report_wizard"
+              sequence="90"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
+    <menuitem id="menu_coo_manager_cc_misalignment_report"
+              name="Manager-wise CC Misalignment"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_manager_cc_misalignment_report_wizard"
+              sequence="100"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+</odoo>
