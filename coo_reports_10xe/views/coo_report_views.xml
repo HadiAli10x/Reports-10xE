@@ -329,6 +329,13 @@
               sequence="100"
               groups="coo_reports_10xe.group_coo_reports_ayesha"/>
 
+    <menuitem id="menu_coo_cc_statement_comparison_report"
+              name="CC Statement Comparison"
+              parent="coo_reports_10xe.menu_coo_reports_appraisal"
+              action="employee_appraisal.action_director_cc_statement_comparison_report_wizard"
+              sequence="110"
+              groups="coo_reports_10xe.group_coo_reports_ayesha"/>
+
     <menuitem id="menu_coo_reports_recruitment"
               name="Recruitment"
               parent="coo_reports_10xe.menu_coo_reports_root"

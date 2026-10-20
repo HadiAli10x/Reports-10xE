@@ -102,6 +102,15 @@ class ManagerCCMisalignmentReportWizard(models.TransientModel):
         return super()._check_director_access()
 
 
+class DirectorCCStatementComparisonReportWizard(models.TransientModel):
+    _inherit = "director.cc.statement.comparison.report.wizard"
+
+    def _check_director_access(self):
+        if _is_coo_report_user(self):
+            return None
+        return super()._check_director_access()
+
+
 class DirectorCalibrationReportWizard(models.TransientModel):
     _inherit = "director.calibration.report.wizard"
 

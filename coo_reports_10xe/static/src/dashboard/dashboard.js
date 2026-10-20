@@ -44,6 +44,7 @@ const REPORT_MODULES = [
             { name: "Needs Improvement CC", format: "XLSX", action: "employee_appraisal.action_director_needs_improvement_cc_report_wizard" },
             { name: "CC Assessment Summary", format: "XLSX", action: "employee_appraisal.action_director_cc_assessment_summary_report_wizard" },
             { name: "Manager-wise CC Misalignment", format: "XLSX", action: "employee_appraisal.action_manager_cc_misalignment_report_wizard" },
+            { name: "CC Statement Comparison", format: "XLSX", action: "employee_appraisal.action_director_cc_statement_comparison_report_wizard" },
         ],
     },
     {
